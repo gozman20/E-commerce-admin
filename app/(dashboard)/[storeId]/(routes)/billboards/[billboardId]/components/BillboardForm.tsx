@@ -43,12 +43,12 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
   const [open, setOpen] = useState(false);
   const params = useParams();
   const router = useRouter();
-  const origin = useOrigin();
+  console.log(params);
   const { storeId, billboardId } = params;
 
   const title = initialData ? "Edit billboard" : "Create billboard";
   const description = initialData ? "Edit a billboard" : "Add a new billboard";
-  const toastMessage = initialData ? "Edit updated" : "Billboard created";
+  const toastMessage = initialData ? "Billboard edited" : "Billboard created";
   const action = initialData ? "Save changes" : "Create";
 
   const form = useForm<BillboardFormValues>({
@@ -64,6 +64,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
         await axios.post(`/api/${storeId}/billboards`, data);
       }
       router.refresh();
+      router.push(`/${params.storeId}/billboards`);
 
       toast.success(toastMessage);
     } catch (err) {
@@ -75,7 +76,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
     try {
       await axios.delete(`/api/${storeId}/billboards/${billboardId}`);
       router.refresh();
-      router.push("/");
+      router.push(`/${storeId}/billboards`);
       toast.success("Billboard Deleted");
     } catch (err) {
       toast.error("Make sure you removed all categories using this billboard.");
@@ -91,6 +92,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
         onClose={() => setOpen(false)}
         loading={form.formState.isSubmitting}
         onConfirm={onDelete}
+        onCancel={() => setOpen(false)}
       />
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />

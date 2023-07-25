@@ -7,6 +7,7 @@ interface AlertModalProps {
   onClose: () => void;
   onConfirm: () => void;
   loading: boolean;
+  onCancel(): void;
 }
 
 const AlertModal: React.FC<AlertModalProps> = ({
@@ -14,6 +15,7 @@ const AlertModal: React.FC<AlertModalProps> = ({
   onClose,
   onConfirm,
   loading,
+  onCancel,
 }) => {
   const [isMounted, setMounted] = useState(false);
 
@@ -32,7 +34,7 @@ const AlertModal: React.FC<AlertModalProps> = ({
       >
         <div className="pt-6 space-x-2 flex items-center justify-end w-full">
           {" "}
-          <Button disabled={loading} variant="outline">
+          <Button disabled={loading} variant="outline" onClick={onCancel}>
             Cancel
           </Button>
           <Button disabled={loading} variant="destructive" onClick={onConfirm}>
