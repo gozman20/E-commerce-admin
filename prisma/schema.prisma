@@ -15,6 +15,7 @@ model Store{
   id String @id @default(uuid())
   name String
   userId String
+  categories Category[] @relation("StoreToCategory")
   billboard Billboard[] @relation("StoreToBillboard")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -26,9 +27,20 @@ model Billboard{
   storeId String
   store Store @relation("StoreToBillboard", fields: [storeId],references: [id])
   label String
+  categories Category[]
   imageUrl String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([storeId])//This fixes warning error in the schema file
+}
+
+model Category{
+  id String @id @default(uuid())
+  storeId String
+  store Store @relation("StoreToCategory",fields: [storeId],references: [id])
+  billboardId String
+  billboard Billboard @relation(fields: [billboardId],references: [id])
+  @@index([storeId])
+  @@index([billboardId])
 }

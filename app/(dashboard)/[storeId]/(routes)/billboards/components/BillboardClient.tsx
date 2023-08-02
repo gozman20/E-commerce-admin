@@ -8,6 +8,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Billboard } from "@prisma/client";
 import { BillboardColumn, columns } from "./Columns";
 import { DataTable } from "@/components/ui/DataTable";
+import ApiList from "@/components/ui/ApiList";
 
 interface BillboardClientProps {
   data?: BillboardColumn[];
@@ -32,6 +33,9 @@ const BillboardClient: React.FC<BillboardClientProps> = ({ data = [] }) => {
       </div>
       <Separator />
       <DataTable searchKey="label" columns={columns} data={data} />
+      <Heading title="API" description="API calls for billboard" />
+      <Separator />
+      <ApiList entityIdName="billboardId" entityName="billboards" />
     </>
   );
 };
