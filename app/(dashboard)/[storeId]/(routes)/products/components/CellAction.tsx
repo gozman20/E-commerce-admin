@@ -7,7 +7,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { SizeColumn } from "./Columns";
+import { ProductColumn } from "./Columns";
 import { Button } from "@/components/ui/button";
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
 import { toast } from "react-hot-toast";
@@ -18,7 +18,7 @@ import AlertModal from "@/components/modals/AlertModal";
 import { set } from "date-fns";
 
 interface CellActionProps {
-  data: SizeColumn;
+  data: ProductColumn;
 }
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const params = useParams();
@@ -33,13 +33,11 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 
   const onDelete = async () => {
     try {
-      await axios.delete(`/api/${params.storeId}/sizes/${data.id}`);
+      await axios.delete(`/api/${params.storeId}/products/${data.id}`);
       router.refresh();
-      toast.success("Size Deleted");
+      toast.success("Product Deleted");
     } catch (err) {
-      toast.error(
-        "Make sure you removed all product using this product first."
-      );
+      toast.error("Something went wrong.");
     } finally {
       setOpen(false);
     }
@@ -67,7 +65,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
             Copy id
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => router.push(`/${params.storeId}/sizes/${data.id}`)}
+            onClick={() =>
+              router.push(`/${params.storeId}/billboards/${data.id}`)
+            }
           >
             <Edit className="mr-2 h-4 w-4" />
             Update
